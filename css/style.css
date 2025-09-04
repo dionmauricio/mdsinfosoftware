@@ -1,19 +1,19 @@
 /* -------------------- */
 /* Variáveis de Cores   */
-/* Altere aqui para customizar o tema facilmente */
-/* Cores baseadas no logo MDS Info Software */
 /* -------------------- */
 :root {
-    --mds-blue-green: #378e93;
-    /* Cor principal do logo */
-    --mds-blue-green-hover: #2d7377;
-    /* Versão mais escura para hover */
-    --mds-dark-gray: #4d4d4d;
-    /* Cinza do logo */
-    --mds-light-gray: #f2f2f2;
-    /* Cinza claro para fundos */
-    --text-color: #333;
+    --primary-color: #008080;
+    /* Azul/Verde do logo */
+    --primary-color-hover: #005f5f;
+    /* Um pouco mais escuro para hover */
+    --secondary-color: #f0f5f5;
+    /* Um cinza claro para seções */
+    --dark-color: #38424a;
+    /* Cinza escuro do logo */
+    --text-color: #4a4a4a;
     --light-text-color: #fff;
+    --header-bg: #fff;
+    --card-bg: #fff;
 }
 
 /* -------------------- */
@@ -29,8 +29,7 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-color: #fff;
-    /* Fundo branco para contraste */
+    background-color: #fcfcfc;
 }
 
 .container {
@@ -42,14 +41,14 @@ body {
 h1,
 h2,
 h3 {
-    color: var(--mds-dark-gray);
+    color: var(--dark-color);
     margin-bottom: 1rem;
 }
 
 h2 {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 section {
@@ -57,46 +56,57 @@ section {
 }
 
 /* -------------------- */
-/* Botões (Componente Reutilizável) */
+/* Botões */
 /* -------------------- */
+
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    /* Use flexbox para alinhar conteúdo */
+    align-items: center;
+    /* Centraliza verticalmente */
+    justify-content: center;
+    /* Centraliza horizontalmente */
     padding: 0.8rem 1.8rem;
-    /* Aumentado um pouco */
     border-radius: 5px;
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    /* Evita que o texto quebre linha no botão */
 }
 
 .btn-primary {
-    background-color: var(--mds-blue-green);
+    background-color: var(--primary-color);
     color: var(--light-text-color);
+    border: 2px solid var(--primary-color);
 }
 
 .btn-primary:hover {
-    background-color: var(--mds-blue-green-hover);
+    background-color: var(--primary-color-hover);
+    border-color: var(--primary-color-hover);
 }
 
 .btn-outline {
     background-color: transparent;
-    color: var(--mds-blue-green);
-    border: 2px solid var(--mds-blue-green);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
 }
 
 .btn-outline:hover {
-    background-color: var(--mds-blue-green);
+    background-color: var(--primary-color);
     color: var(--light-text-color);
+    /* Garante que o texto fique branco no hover */
+    border-color: var(--primary-color);
+    /* Mantém a borda da cor primária */
 }
-
 
 /* -------------------- */
 /* Bloco 1: Cabeçalho   */
 /* -------------------- */
 .header {
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    /* Sombra mais suave */
+    background: var(--header-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     padding: 1rem 0;
     position: sticky;
     top: 0;
@@ -107,35 +117,12 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    /* Permite quebrar linha em telas pequenas */
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--mds-dark-gray);
 }
 
 .logo img {
     height: 40px;
-    /* Ajuste o tamanho conforme necessário */
-    margin-right: 10px;
-}
-
-.logo .logo-text {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.logo .logo-text span {
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: var(--text-color);
+    /* Ajuste o tamanho do logo */
+    width: auto;
 }
 
 .header nav ul {
@@ -143,42 +130,74 @@ section {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    /* Aumenta o espaçamento do menu */
 }
 
 .header nav a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--dark-color);
     font-weight: 600;
-    transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 5px;
+    /* Espaço para o underline */
 }
 
 .header nav a:hover {
-    color: var(--mds-blue-green);
+    color: var(--primary-color);
+}
+
+.header nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.header nav a:hover::after {
+    width: 100%;
+    left: 0;
+    background: var(--primary-color);
+}
+
+/* Burger Menu (Mobile) */
+.burger-menu {
+    display: none;
+    /* Escondido por padrão em desktop */
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.burger-menu div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--dark-color);
+    transition: all 0.3s ease;
 }
 
 /* -------------------- */
 /* Bloco 2: Hero Section */
 /* -------------------- */
 .hero {
-    background-color: var(--mds-light-gray);
-    /* Fundo cinza claro */
+    background-color: var(--secondary-color);
     text-align: center;
     padding: 6rem 0;
-    /* Aumenta o padding */
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 2.8rem;
     line-height: 1.2;
-    margin-bottom: 1.5rem;
-    color: var(--mds-blue-green);
-    /* Título principal com a cor da marca */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero p {
-    font-size: 1.3rem;
-    /* Aumenta o tamanho da fonte */
+    font-size: 1.1rem;
     margin-bottom: 2.5rem;
     max-width: 700px;
     margin-left: auto;
@@ -190,45 +209,47 @@ section {
 /* Bloco 3: Serviços    */
 /* -------------------- */
 .services {
-    background-color: #fff;
+    background-color: var(--card-bg);
+    /* Fundo branco para cards */
 }
 
 .services .cards-container {
     display: flex;
     flex-direction: column;
+    /* Em telas pequenas, os cards ficam empilhados */
     gap: 1.8rem;
-    /* Aumenta o espaçamento */
 }
 
 .card {
-    background: var(--mds-light-gray);
-    /* Fundo do card em cinza claro */
+    background: var(--card-bg);
     padding: 2.5rem;
-    /* Aumenta o padding */
     border-radius: 8px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
-    /* Sombra mais proeminente */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
-    color: var(--mds-blue-green);
-    margin-bottom: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
     font-size: 1.5rem;
+}
+
+.card p {
+    font-size: 1rem;
+    color: var(--text-color);
 }
 
 /* -------------------- */
 /* Bloco 4: Sobre       */
 /* -------------------- */
 .about {
-    background-color: var(--mds-light-gray);
-    /* Fundo cinza claro */
+    background-color: var(--secondary-color);
 }
 
 .about .container {
@@ -236,20 +257,20 @@ section {
     text-align: center;
 }
 
-.about h2 {
-    color: var(--mds-dark-gray);
+.about p {
+    font-size: 1.1rem;
+    color: var(--text-color);
 }
 
 /* -------------------- */
 /* Bloco 5: Rodapé      */
 /* -------------------- */
 .footer {
-    background-color: var(--mds-dark-gray);
-    /* Fundo do rodapé em cinza escuro */
+    background-color: var(--dark-color);
     color: var(--light-text-color);
     text-align: center;
     padding: 2.5rem 0;
-    /* Aumenta o padding */
+    font-size: 0.9rem;
 }
 
 .footer a {
@@ -259,45 +280,75 @@ section {
 }
 
 .footer a:hover {
-    color: var(--mds-blue-green);
-    /* Links do rodapé com hover na cor da marca */
+    color: var(--primary-color);
 }
 
 .social-links {
     margin-top: 1rem;
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    /* Espaçamento entre os links sociais */
+    gap: 1rem;
 }
 
-/* Remove o separador '|' se usar flex-gap */
-.social-links a:not(:last-child)::after {
-    content: '';
-}
-
-
 /* -------------------- */
-/* Responsividade para telas maiores (Tablet e Desktop) */
+/* Responsividade - Media Queries */
 /* -------------------- */
-@media (max-width: 767px) {
-    .header .container {
-        flex-direction: column;
-        gap: 1rem;
-    }
 
+/* Mobile e Tablet */
+@media (max-width: 768px) {
     .header nav ul {
+        display: none;
+        /* Esconde links em mobile */
         flex-direction: column;
-        gap: 0.5rem;
+        width: 100%;
+        position: absolute;
+        top: 70px;
+        /* Abaixo do cabeçalho */
+        left: 0;
+        background-color: var(--header-bg);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+        border-top: 1px solid #eee;
     }
 
-    .logo .logo-text {
+    .header nav ul.nav-active {
+        display: flex;
+        /* Mostra links quando menu ativo */
+    }
+
+    .header nav ul li {
         text-align: center;
+        width: 100%;
+        padding: 0.5rem 0;
     }
 
-    .logo img {
-        height: 35px;
-        /* Ajuste para mobile */
+    .header nav ul li a {
+        padding: 0.8rem 0;
+        display: block;
+        color: var(--dark-color);
+    }
+
+    .header nav ul li .btn-outline {
+        margin-top: 1rem;
+        display: inline-block;
+    }
+
+    .burger-menu {
+        display: flex;
+        /* Mostra o menu hambúrguer em mobile */
+    }
+
+    /* Animação do menu hambúrguer */
+    .burger-menu.toggle .bar1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .burger-menu.toggle .bar2 {
+        opacity: 0;
+    }
+
+    .burger-menu.toggle .bar3 {
+        transform: rotate(45deg) translate(-5px, -6px);
     }
 
     .hero h1 {
@@ -308,29 +359,35 @@ section {
         font-size: 1rem;
     }
 
-    .card {
-        padding: 1.5rem;
-    }
-
     h2 {
         font-size: 1.8rem;
     }
 }
 
 
-@media (min-width: 768px) {
+/* Desktop */
+@media (min-width: 769px) {
+    .header nav ul {
+        display: flex !important;
+        /* Garante que o menu esteja visível em desktop */
+    }
+
+    .hero {
+        padding: 8rem 0;
+    }
+
     .hero h1 {
         font-size: 3.5rem;
-        /* Título maior em desktop */
     }
 
     .services .cards-container {
         flex-direction: row;
+        /* Em telas maiores, os cards ficam lado a lado */
         justify-content: space-between;
     }
 
     .card {
-        width: 30%;
-        /* Mantém o espaçamento flexível */
+        width: 31%;
+        /* Ajustado para deixar um pequeno gap */
     }
 }
