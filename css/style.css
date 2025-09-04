@@ -58,22 +58,14 @@ section {
 /* -------------------- */
 /* Botões */
 /* -------------------- */
-
 .btn {
-    display: inline-flex;
-    /* Use flexbox para alinhar conteúdo */
-    align-items: center;
-    /* Centraliza verticalmente */
-    justify-content: center;
-    /* Centraliza horizontalmente */
+    display: inline-block;
     padding: 0.8rem 1.8rem;
     border-radius: 5px;
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     cursor: pointer;
-    white-space: nowrap;
-    /* Evita que o texto quebre linha no botão */
 }
 
 .btn-primary {
@@ -96,9 +88,6 @@ section {
 .btn-outline:hover {
     background-color: var(--primary-color);
     color: var(--light-text-color);
-    /* Garante que o texto fique branco no hover */
-    border-color: var(--primary-color);
-    /* Mantém a borda da cor primária */
 }
 
 /* -------------------- */
