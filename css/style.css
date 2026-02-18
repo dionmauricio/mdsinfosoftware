@@ -404,9 +404,13 @@ img {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(160deg, var(--bg-white) 0%, var(--teal-lighter) 50%, var(--bg-light) 100%);
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/engenharia_de_software/engenharia_de_software.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     overflow: hidden;
     padding-top: 80px;
+    color: white;
 }
 
 .hero-bg-shapes {
@@ -483,7 +487,7 @@ img {
     font-weight: 800;
     line-height: 1.15;
     margin-bottom: 20px;
-    color: var(--charcoal-dark);
+    color: #FFFFFF;
 }
 
 .text-gradient {
@@ -495,7 +499,7 @@ img {
 
 .hero-description {
     font-size: 1.1rem;
-    color: var(--text-secondary);
+    color: #f0f0f0;
     margin-bottom: 32px;
     line-height: 1.8;
     max-width: 520px;
@@ -518,7 +522,7 @@ img {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-secondary);
+    color: #f0f0f0;
     font-size: 0.9rem;
     transition: var(--transition-fast);
 }
@@ -540,8 +544,8 @@ img {
 
 .hero-logo-wrapper {
     position: relative;
-    width: 380px;
-    height: 380px;
+    width: 500px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -557,10 +561,13 @@ img {
 }
 
 .hero-logo-img {
-    width: 320px;
+    width: 420px;
     height: auto;
     filter: drop-shadow(0 10px 40px rgba(74, 175, 175, 0.2));
     animation: floatLogo 6s ease-in-out infinite;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 20px;
 }
 
 @keyframes floatLogo {
