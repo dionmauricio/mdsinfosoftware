@@ -169,12 +169,39 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
 
-            setTimeout(() => {
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/comercial@mdsinfosoftware.com', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        subject: subject,
+                        message: message,
+                        _subject: `Novo contato: ${subject}`,
+                        _template: 'table',
+                        _captcha: 'false'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar mensagem');
+                }
+
                 showToast('success', 'Mensagem Enviada!', 'Recebemos sua mensagem e entraremos em contato em breve. Obrigado!');
                 contactForm.reset();
+
+            } catch (error) {
+                console.error('Form error:', error);
+                showToast('error', 'Erro ao Enviar', 'Não foi possível enviar sua mensagem. Tente novamente ou entre em contato pelo WhatsApp.');
+            } finally {
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
-            }, 1500);            
+            }            
         });
     }
 
