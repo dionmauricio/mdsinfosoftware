@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ─── Preloader ─────────────────────────────────────────────────────────────
     const preloader = document.getElementById('preloader');
     window.addEventListener('load', () => {
-        setTimeout(() => {
-            preloader.classList.add('hidden');
-        }, 800);
-    });
+        setTimeout(() => preloader.classList.add('hidden'), 600);
+    }, { passive: true });
+    // Fallback: esconder após 3s mesmo se load não disparar
+    setTimeout(() => preloader.classList.add('hidden'), 3000);
 
-    setTimeout(() => {
-        preloader.classList.add('hidden');
-    }, 3000);
+    // ─── AOS (Animate On Scroll) ────────────────────────────────────────────────
+    // Desabilitar no mobile: reduz significativamente o overhead de reflow
+    const isMobile = window.innerWidth < 768;
 
     if (typeof AOS !== 'undefined') {
         AOS.init({
@@ -17,28 +18,32 @@ document.addEventListener('DOMContentLoaded', () => {
             easing: 'ease-out-cubic',
             once: true,
             offset: 60,
-            disable: window.innerWidth < 768 ? 'phone' : false
+            disable: isMobile  // Boolean correto — 'phone' não é um valor válido
         });
     }
 
+    // ─── Header scroll (throttle via rAF) ──────────────────────────────────────
     const header = document.getElementById('header');
-    let lastScrollY = 0;
+    let scrollTicking = false;
 
     function handleScroll() {
-        const scrollY = window.scrollY;
-        
-        if (scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+        if (!scrollTicking) {
+            requestAnimationFrame(() => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                scrollTicking = false;
+            });
+            scrollTicking = true;
         }
-        
-        lastScrollY = scrollY;
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
+    // ─── Menu hamburger ─────────────────────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
 
@@ -66,30 +71,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ─── Active nav link (throttle via rAF) ────────────────────────────────────
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
+    let activeTicking = false;
 
     function setActiveLink() {
-        const scrollY = window.scrollY + 120;
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
+        if (!activeTicking) {
+            requestAnimationFrame(() => {
+                const scrollY = window.scrollY + 120;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
                     }
                 });
-            }
-        });
+                activeTicking = false;
+            });
+            activeTicking = true;
+        }
     }
 
     window.addEventListener('scroll', setActiveLink, { passive: true });
 
+    // ─── Smooth scroll ──────────────────────────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -98,20 +110,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) {
                 const headerHeight = header.offsetHeight;
                 const targetPosition = target.offsetTop - headerHeight;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });
     });
 
+    // ─── Máscara de telefone ────────────────────────────────────────────────────
     const phoneInput = document.getElementById('phone');
     if (phoneInput) {
         phoneInput.addEventListener('input', (e) => {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length > 11) value = value.slice(0, 11);
-            
             if (value.length > 0) {
                 if (value.length <= 2) {
                     value = `(${value}`;
@@ -127,13 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ─── Formulário de contato ──────────────────────────────────────────────────
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
 
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             clearFormErrors();
 
             const name = document.getElementById('name').value.trim();
@@ -143,27 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = document.getElementById('message').value.trim();
 
             let isValid = true;
-
-            if (!name || name.length < 3) {
-                showFieldError('name', 'Por favor, informe seu nome completo.');
-                isValid = false;
-            }
-
-            if (!email || !isValidEmail(email)) {
-                showFieldError('email', 'Por favor, informe um e-mail válido.');
-                isValid = false;
-            }
-
-            if (!subject) {
-                showFieldError('subject', 'Por favor, selecione um assunto.');
-                isValid = false;
-            }
-
-            if (!message || message.length < 10) {
-                showFieldError('message', 'A mensagem deve ter pelo menos 10 caracteres.');
-                isValid = false;
-            }
-
+            if (!name || name.length < 3) { showFieldError('name', 'Por favor, informe seu nome completo.'); isValid = false; }
+            if (!email || !isValidEmail(email)) { showFieldError('email', 'Por favor, informe um e-mail válido.'); isValid = false; }
+            if (!subject) { showFieldError('subject', 'Por favor, selecione um assunto.'); isValid = false; }
+            if (!message || message.length < 10) { showFieldError('message', 'A mensagem deve ter pelo menos 10 caracteres.'); isValid = false; }
             if (!isValid) return;
 
             submitBtn.classList.add('loading');
@@ -172,36 +164,24 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('https://formsubmit.co/ajax/comercial@mdsinfosoftware.com', {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        phone: phone,
-                        subject: subject,
-                        message: message,
+                        name, email, phone, subject, message,
                         _subject: `Novo contato: ${subject}`,
                         _template: 'table',
                         _captcha: 'false'
                     })
                 });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao enviar mensagem');
-                }
-
+                if (!response.ok) throw new Error('Erro ao enviar mensagem');
                 showToast('success', 'Mensagem Enviada!', 'Recebemos sua mensagem e entraremos em contato em breve. Obrigado!');
                 contactForm.reset();
-
             } catch (error) {
                 console.error('Form error:', error);
                 showToast('error', 'Erro ao Enviar', 'Não foi possível enviar sua mensagem. Tente novamente ou entre em contato pelo WhatsApp.');
             } finally {
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
-            }            
+            }
         });
     }
 
@@ -221,15 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.form-error').forEach(e => e.textContent = '');
     }
 
+    // ─── Toast ──────────────────────────────────────────────────────────────────
     function showToast(type, title, message) {
         const container = document.getElementById('toastContainer');
         if (!container) return;
-
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
-        
         const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-        
         toast.innerHTML = `
             <div class="toast-icon"><i class="${icon}"></i></div>
             <div class="toast-body">
@@ -238,11 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <button class="toast-close" aria-label="Fechar">&times;</button>
         `;
-
         container.appendChild(toast);
-
         toast.querySelector('.toast-close').addEventListener('click', () => removeToast(toast));
-
         setTimeout(() => removeToast(toast), 6000);
     }
 
@@ -254,14 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.showToast = showToast;
 
-    document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.zIndex = '2';
+    // ─── Service cards hover (somente desktop) ──────────────────────────────────
+    if (!isMobile) {
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => { card.style.zIndex = '2'; });
+            card.addEventListener('mouseleave', () => { card.style.zIndex = ''; });
         });
-        card.addEventListener('mouseleave', () => {
-            card.style.zIndex = '';
-        });
-    });
+    }
 
     console.log(
         '%c MDS Info Software %c Projetando, codificando e conectando soluções ',
