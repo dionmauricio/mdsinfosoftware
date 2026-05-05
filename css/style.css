@@ -7,14 +7,14 @@
 }
 
 :root {
-  --teal: #4aafaf;
-  --teal-light: #6cc5c5;
-  --teal-lighter: #e8f6f6;
-  --teal-dark: #3a9090;
-  --teal-darker: #1a6e6e;
-  --charcoal: #4a4a4a;
-  --charcoal-light: #666666;
-  --charcoal-dark: #333333;
+  --teal: #FCA311;
+  --teal-light: #FCD17A;
+  --teal-lighter: #FFF5E1;
+  --teal-dark: #E3920F;
+  --teal-darker: #B8760C;
+  --charcoal: #2A2A2A;
+  --charcoal-light: #4A4A4A;
+  --charcoal-dark: #0E0E0E;
 
   --primary: var(--teal);
   --primary-light: var(--teal-light);
@@ -26,22 +26,22 @@
   --text-muted: #888888;
 
   --bg-white: #ffffff;
-  --bg-light: #f7fafa;
-  --bg-gray: #f0f4f4;
-  --bg-dark: #2c3e3e;
-  --bg-darker: #1e2d2d;
+  --bg-light: #fafafa;
+  --bg-gray: #f5f5f5;
+  --bg-dark: #1a1a1a;
+  --bg-darker: #0e0e0e;
 
-  --border: #e0e8e8;
-  --border-light: #eef2f2;
+  --border: #e5e5e5;
+  --border-light: #f0f0f0;
 
   --success: #27ae60;
   --error: #e74c3c;
   --warning: #f39c12;
 
-  --shadow-sm: 0 2px 8px rgba(74, 175, 175, 0.08);
-  --shadow-md: 0 4px 20px rgba(74, 175, 175, 0.12);
-  --shadow-lg: 0 8px 40px rgba(74, 175, 175, 0.16);
-  --shadow-xl: 0 16px 60px rgba(74, 175, 175, 0.2);
+  --shadow-sm: 0 2px 8px rgba(252, 163, 17, 0.08);
+  --shadow-md: 0 4px 20px rgba(252, 163, 17, 0.12);
+  --shadow-lg: 0 8px 40px rgba(252, 163, 17, 0.16);
+  --shadow-xl: 0 16px 60px rgba(252, 163, 17, 0.2);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -515,7 +515,7 @@ img {
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 24px;
-  border: 1px solid rgba(74, 175, 175, 0.2);
+  border: 1px solid rgba(252, 163, 17, 0.2);
 }
 
 .hero-title {
@@ -598,7 +598,7 @@ img {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(74, 175, 175, 0.08) 0%,
+    rgba(252, 163, 17, 0.08) 0%,
     transparent 70%
   );
   animation: pulse 3s ease-in-out infinite;
@@ -607,11 +607,8 @@ img {
 .hero-logo-img {
   width: 420px;
   height: auto;
-  filter: drop-shadow(0 10px 40px rgba(74, 175, 175, 0.2));
+  filter: drop-shadow(0 10px 40px rgba(252, 163, 17, 0.2));
   animation: floatLogo 6s ease-in-out infinite;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 20px;
   will-change: transform;
 }
 
@@ -877,7 +874,7 @@ img {
   background: linear-gradient(
     135deg,
     var(--teal-lighter) 0%,
-    rgba(74, 175, 175, 0.15) 100%
+    rgba(252, 163, 17, 0.15) 100%
   );
   border-radius: var(--radius-md);
   display: flex;
@@ -1250,7 +1247,7 @@ img {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(74, 175, 175, 0.1);
+  box-shadow: 0 0 0 4px rgba(252, 163, 17, 0.1);
 }
 
 .form-group input::placeholder,
