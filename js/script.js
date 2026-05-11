@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log(
         '%c MDS Info Software %c Projetando, codificando e conectando soluções ',
-        'background: #1A6E6E; color: white; padding: 8px 12px; border-radius: 4px 0 0 4px; font-weight: bold; font-size: 14px;',
-        'background: #4AAFAF; color: white; padding: 8px 12px; border-radius: 0 4px 4px 0; font-size: 14px;'
+        'background: #FCA311; color: #0E0E0E; padding: 8px 12px; border-radius: 4px 0 0 4px; font-weight: bold; font-size: 14px;',
+        'background: #0E0E0E; color: #FCA311; padding: 8px 12px; border-radius: 0 4px 4px 0; font-size: 14px;'
     );
 });
